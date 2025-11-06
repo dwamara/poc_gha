@@ -1,0 +1,29 @@
+name: PoC: Triggered by Jenkins
+
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: Environment
+        required: true
+        default: dev
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Do work
+        id: work
+        run: |
+          # Do your PoC work here. We'll just compute a small value.
+          RETURN_VALUE=$(( RANDOM % 100 ))
+          echo "Computed RETURN_VALUE=${RETURN_VALUE}"
+
+          # Write a tiny JSON result (this is what Jenkins will read)
+          printf '{"return_value": %s, "note": "hello from GHA"}\n' "${RETURN_VALUE}" > result.json
+
+      - name: Upload result.json
+        uses: actions/upload-artifact@v4
+        with:
+          name: result
+          path: result.json
