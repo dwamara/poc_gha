@@ -1,4 +1,4 @@
-name: PoC: Triggered by Jenkins
+name: PoC - Triggered by Jenkins
 
 on:
   workflow_dispatch:
